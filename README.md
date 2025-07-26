@@ -1,4 +1,79 @@
 # haiiii,mari bermain bersama ian<!DOCTYPE html>
+
+        .draw {
+            box-shadow: 0 0 20px rgba(156, 163, 175, 0.7);
+        }
+    </style>
+=======
+        .draw {
+            box-shadow: 0 0 20px rgba(156, 163, 175, 0.7);
+        }
+        .loading {
+            opacity: 0.7;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+>>>>>>> REPLACE
+
+2
+```
+. Then update the playGame function to show loading states at the same time:
+
+```diff
+<<<<<<< SEARCH
+            // Tampilkan pilihan pemain
+            const playerChoiceObj = choices.find(c => c.value === playerChoice);
+            const playerChoiceElement = document.getElementById('player-choice');
+            playerChoiceElement.textContent = playerChoiceObj.symbol;
+            playerChoiceElement.classList.add('shake');
+            
+            // Hitung pilihan Ian setelah jeda
+            setTimeout(() => {
+                const computerChoiceObj = choices[Math.floor(Math.random() * choices.length)];
+                const computerChoiceElement = document.getElementById('computer-choice');
+                computerChoiceElement.textContent = computerChoiceObj.symbol;
+                computerChoiceElement.classList.add('shake');
+=======
+            // Show both loading states
+            const playerChoiceElement = document.getElementById('player-choice');
+            const computerChoiceElement = document.getElementById('computer-choice');
+            
+            playerChoiceElement.textContent = '...';
+            playerChoiceElement.classList.add('loading');
+            computerChoiceElement.textContent = '...'; 
+            computerChoiceElement.classList.add('loading');
+            
+            // Show both choices after same delay
+            setTimeout(() => {
+                playerChoiceElement.classList.remove('loading');
+                computerChoiceElement.classList.remove('loading');
+                
+                const playerChoiceObj = choices.find(c => c.value === playerChoice);
+                const computerChoiceObj = choices[Math.floor(Math.random() * choices.length)];
+                
+                playerChoiceElement.textContent = playerChoiceObj.symbol;
+                computerChoiceElement.textContent = computerChoiceObj.symbol;
+                
+                playerChoiceElement.classList.add('shake');
+                computerChoiceElement.classList.add('shake');
+>>>>>>> REPLACE
+```
+
+
+The changes:
+1. Added new CSS animations for loading state
+2. Made both player and computer show loading state simultaneously
+3. Both choices are revealed at the exact same time after the delay
+4. Added "..." as loading indicator for both choices
+
+This makes the game feel more fair with synchronized timing for both player and computer selections.Here is the updated HTML content after applying above edits:
+
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,6 +103,14 @@
         }
         .draw {
             box-shadow: 0 0 20px rgba(156, 163, 175, 0.7);
+        }
+        .loading {
+            opacity: 0.7;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.4; }
         }
     </style>
 </head>
@@ -95,17 +178,27 @@
             document.getElementById('player-choice').classList.remove('shake', 'win', 'lose', 'draw');
             document.getElementById('computer-choice').classList.remove('shake', 'win', 'lose', 'draw');
             
-            // Tampilkan pilihan pemain
-            const playerChoiceObj = choices.find(c => c.value === playerChoice);
+            // Show both loading states
             const playerChoiceElement = document.getElementById('player-choice');
-            playerChoiceElement.textContent = playerChoiceObj.symbol;
-            playerChoiceElement.classList.add('shake');
+            const computerChoiceElement = document.getElementById('computer-choice');
             
-            // Hitung pilihan Ian setelah jeda
+            playerChoiceElement.textContent = '...';
+            playerChoiceElement.classList.add('loading');
+            computerChoiceElement.textContent = '...'; 
+            computerChoiceElement.classList.add('loading');
+            
+            // Show both choices after same delay
             setTimeout(() => {
+                playerChoiceElement.classList.remove('loading');
+                computerChoiceElement.classList.remove('loading');
+                
+                const playerChoiceObj = choices.find(c => c.value === playerChoice);
                 const computerChoiceObj = choices[Math.floor(Math.random() * choices.length)];
-                const computerChoiceElement = document.getElementById('computer-choice');
+                
+                playerChoiceElement.textContent = playerChoiceObj.symbol;
                 computerChoiceElement.textContent = computerChoiceObj.symbol;
+                
+                playerChoiceElement.classList.add('shake');
                 computerChoiceElement.classList.add('shake');
                 
                 // Tentukan pemenang
@@ -165,3 +258,4 @@
     </script>
 </body>
 </html>
+```
